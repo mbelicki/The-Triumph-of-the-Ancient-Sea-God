@@ -1,0 +1,38 @@
+* {
+  padding:0px;
+  margin:0px;
+}
+
+html, body {
+  height:100%;
+  background:#000;
+}
+
+.asset {
+  display:none;
+  width:0px;
+  height:0px;
+}
+
+button {
+  padding:20px;
+}
+
+div#console {
+  position:absolute;
+  left:0px;top:0px;
+  min-width:100%;
+  min-height:100%;
+  overflow:hidden;
+}
+
+canvas#screen{
+  image-rendering: optimizeSpeed;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: optimize-contrast;
+  image-rendering:-o-crisp-edges;
+  image-rendering:-webkit-optimize-contrast;
+  -ms-interpolation-mode: nearest-neighbor;
+  position:absolute;
+  box-shadow: 0px 0px 64px #b7e0f3;
+}
