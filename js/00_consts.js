@@ -50,12 +50,12 @@ var PLAYER_ANIM_FRAMES_COUNT = 8;
 var REFL_FRAME_COUNT = 4;
 
 /** @const @type {number} */ 
-var PLAYER_SCORE_STEP_MULTI = 3;
+var PLAYER_SCORE_STEP_MULTI = 4;
 
 /** @const @type {number} */ 
 var PASSED_CHUNK_FLOODING_SPEED = 16;
 /** @const @type {number} */
-var FLOODING_SPEED_STEP = 0.5;
+var FLOODING_SPEED_STEP = 0.334;
 
 /** @const @type {number} */ 
 var BUTTON_FLOODING_SPEED_DOWN = 1;

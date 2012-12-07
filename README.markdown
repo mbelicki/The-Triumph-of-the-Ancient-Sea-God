@@ -11,4 +11,7 @@ A simple two-dimmensional runner game writen in Javascript, using canvas.
 
 # license:
 
-Code is released under MIT license.
+Code is released under MIT license (view any source file for details).
+All other game assets included in this repository are licesnsed under 
+[the Creative Commons Attribution-ShareAlike 3.0 license](http://creativecommons.org/licenses/by-sa/3.0/us/), you can find full license text on the Creative Commons website
+or in cc-lic.txt file in this repository. 

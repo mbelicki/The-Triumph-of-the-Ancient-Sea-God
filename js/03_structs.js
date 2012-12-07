@@ -341,19 +341,22 @@ function Player() {
   /** @type {Vector2} */
   this.velocity = new Vector2(0, 0);
   /** @type {number} */
-  this.runningVelocity      =  6.7;
+  this.runningVelocity      =  7.2;
   /** @type {number} */
-  this.maxVelocity          =  8.0;
+  this.maxVelocity          =  8.2;
   
   /** @type {number} */
-  this.runningAcceleration  = 18.0;
+  this.runningAcceleration  = 58.0;
   /** @type {number} */
-  this.runningDeceleration  =  3.0;
+  this.runningDeceleration  = 26.0;
   /** @type {number} */
-  this.standingDeceleration = 29.0;
+  this.standingDeceleration = 64.0;
   
   /** @type {number} */
-  this.jumpAcceleration = 1.0;
+  this.r = 1.0;
+
+  /** @type {number} */
+  this.jumpAcceleration = 0.6;
 
   /** @type {number} */
   this.animationTimer  = 0.0;

@@ -103,7 +103,7 @@ function step(then, currentState, renderer, keys) {
     renderer.fillScreen(0, 0, 256, 256);
     /* chunks: */
     var waterAnim = p.waterTime / p.WATER_PERIOD;
-    var ho = -(p.player.x - CHUNK_HALF_HEIGHT - 2) * GRID_SIZE;
+    var ho = -(p.player.x - CHUNK_HALF_WIDTH - 2) * GRID_SIZE;
     var vo = TOP_OFFSET;
     var chunkSize = CHUNK_WIDTH * GRID_SIZE;
     renderer.drawChunk(p.previousChunk, false,  ho - chunkSize, vo, waterAnim);
@@ -291,16 +291,23 @@ function step(then, currentState, renderer, keys) {
         if (player.state === 'walking' || player.state === 'standing') {
           player.state = 'jumping';
           player.airborneTimer = player.airbornePeriod;
-          if (player.velocity.length() < player.maxVelocity)
+          if (player.velocity.length() < player.maxVelocity) {
             player.velocity.append(player.direction, player.jumpAcceleration);
+          } 
         }
       }
       
       if (walking) {
         player.direction.normalize();
         player.state = 'walking';
-        if (player.velocity.length() < player.runningVelocity)
+        if (player.velocity.length() < player.runningVelocity - 0.05) {
           player.velocity.append(player.direction, player.runningAcceleration * time);
+        }
+        if (player.velocity.length() > player.runningVelocity) {
+          player.velocity.normalize();
+          player.velocity.x *= player.runningVelocity;
+          player.velocity.y *= player.runningVelocity;
+        }
       } else {
         if (player.state !== 'falling')
           player.state = 'standing';
