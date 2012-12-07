@@ -103,7 +103,7 @@ function step(then, currentState, renderer, keys) {
     renderer.fillScreen(0, 0, 256, 256);
     /* chunks: */
     var waterAnim = p.waterTime / p.WATER_PERIOD;
-    var ho = -(p.player.x - CHUNK_HALF_WIDTH - 2) * GRID_SIZE;
+    var ho = -(p.player.x - CHUNK_HALF_WIDTH) * GRID_SIZE;
     var vo = TOP_OFFSET;
     var chunkSize = CHUNK_WIDTH * GRID_SIZE;
     renderer.drawChunk(p.previousChunk, false,  ho - chunkSize, vo, waterAnim);
