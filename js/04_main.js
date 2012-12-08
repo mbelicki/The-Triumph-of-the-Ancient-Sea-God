@@ -19,11 +19,18 @@
  * IN THE SOFTWARE.
  */ 
 
-/* layout arrangement */
-var ARRANGE_PAGE = function () {
+var renderer = (function () {
   var canvas  = document.getElementById('screen');
-  canvas.width  = SCREEN_WIDTH;
-  canvas.height = SCREEN_HEIGHT;
+  var context = canvas.getContext('2d');
+  context.imageSmoothingEnabled = false;
+  context.mozImageSmoothingEnabled = false;
+  context.webkitImageSmoothingEnabled = false;
+  
+  return new Renderer(context, 'gfx/bg.png', 1);
+}());
+
+/* layout arrangement */
+var arrange = function () {
   /* found here: http://stackoverflow.com/a/1248126 */
   var elem = document.compatMode === 'CSS1Compat'
            ? document.documentElement 
@@ -36,27 +43,33 @@ var ARRANGE_PAGE = function () {
             : width  / SCREEN_WIDTH;
   scale = scale > 1 ? (scale | 0) : scale;
   if (scale > 3) scale = 3;
+
+  var canvas  = document.getElementById('screen');
+  var context = canvas.getContext('2d');
+  context['imageSmoothingEnabled'] = false;
+  context['mozImageSmoothingEnabled'] = false;
+  context['webkitImageSmoothingEnabled'] = false;
+  var isChrome = navigator.userAgent.toLowerCase().indexOf('chrome') > -1;
+
   var finalWidth  = ((scale * SCREEN_WIDTH)  | 0);
   var finalHeight = ((scale * SCREEN_HEIGHT) | 0);
+  
   canvas.style.width  = finalWidth  + 'px';
   canvas.style.height = finalHeight + 'px';
   canvas.style.left   = (width  - finalWidth)  / 2 + 'px';
   canvas.style.top    = (height - finalHeight) / 2 + 'px';
+
+  canvas.width  = isChrome ? finalWidth  : SCREEN_WIDTH;
+  canvas.height = isChrome ? finalHeight : SCREEN_HEIGHT;
+
+  if (isChrome) {
+    renderer.manualScale = scale;
+  }
 };
 
-ARRANGE_PAGE();
+arrange();
 
-document.onresize = ARRANGE_PAGE;
-
-var renderer = (function () {
-  var canvas  = document.getElementById('screen');
-  var context = canvas.getContext('2d');
-  context.imageSmoothingEnabled = false;
-  context.mozImageSmoothingEnabled = false;
-  context.webkitImageSmoothingEnabled = false;
-  
-  return new Renderer(context, 'gfx/bg.png');
-}());
+document.onresize = arrange;
 
 var keys = (function () {
   var keys = {};
@@ -118,6 +131,9 @@ function getInitialData() {
 var currentState = changeState(getInitialData(), MENU_BEHAVIOR);
 
 var loop = function() {
+  /* work around for: https://bugs.webkit.org/show_bug.cgi?id=89018 */
+  renderer.context['webkitImageSmoothingEnabled'] = false;
+
   then = step(then, currentState, renderer, keys);
   /* TODO: this is a quick hack for poor step() design allowing state change */
   if (currentState.requestedChange) {

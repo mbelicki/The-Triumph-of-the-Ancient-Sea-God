@@ -24,10 +24,14 @@
  * @constructor
  * @param {?} context
  * @param {string} atlasURI
+ * @param {number} manualScale
  */
-function Renderer(context, atlasURI) {
+function Renderer(context, atlasURI, manualScale) {
   this.context  = context;
   
+  this.manualScale = typeof manualScale !== 'undefined'
+                   ? (manualScale | 0) : 1;
+
   this.atlasLoaded = false;
   this.atlas = new Image();
   this.atlas.onload = function () { this.atlasLoaded = true; };
@@ -45,8 +49,8 @@ Renderer.prototype.isReady = function () {
  * @param {number} y
  */
 Renderer.prototype.drawText = function (text, x, y) {
-  var ix = (x | 0);
-  var iy = (y | 0);
+  var ix = (x | 0) * this.manualScale;
+  var iy = (y | 0) * this.manualScale;
   this.context.fillText(text, ix, iy);
 }
 
@@ -68,10 +72,10 @@ Renderer.prototype.drawSprite = function (sX, sY, sW, sH, dX, dY, dW, dH) {
   var sw = (sW | 0);
   var sh = (sH | 0);
 
-  var dx = (dX | 0);
-  var dy = (dY | 0);
-  var dw = (dW | 0);
-  var dh = (dH | 0);
+  var dx = (dX | 0) * this.manualScale;
+  var dy = (dY | 0) * this.manualScale;
+  var dw = (dW | 0) * this.manualScale;
+  var dh = (dH | 0) * this.manualScale;
   
   this.context.drawImage(this.atlas, sx, sy, sw, sh, dx, dy, dw, dh);
 };
@@ -91,7 +95,8 @@ Renderer.prototype.fillScreen = function (sX, sY, sW, sH) {
   var sh = (sH | 0);
 
   this.context.drawImage(this.atlas, sx, sy, sw, sh, 
-                         0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+                         0, 0, SCREEN_WIDTH  * this.manualScale, 
+                               SCREEN_HEIGHT * this.manualScale);
 };
 
 /**
